@@ -42,5 +42,131 @@ CHIP ALU {
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    Not(in=f, out=isAnd);
+    Not(in=isAnd, out=isAdd);
+
+    HalfAdder(a=x[0], b=y[0], sum=s0, carry=c0);
+    And(a=isAnd, b=c0, out=and0);
+    And(a=isAdd, b=s0, out=add0);
+    Or(a=and0, b=add0, out=out[0]);
+
+    FullAdder(a=x[1], b=y[1], c=c0, sum=s1, carry=c1);
+    And(a=x[1], b=y[1], out=andResult1);
+    And(a=isAnd, b=andResult1, out=and1);
+    And(a=isAdd, b=s1, out=add1);
+    Or(a=and1, b=add1, out=out[1]);
+
+    FullAdder(a=x[2], b=y[2], c=c1, sum=s2, carry=c2);
+    And(a=x[2], b=y[2], out=andResult2);
+    And(a=isAnd, b=andResult2, out=and2);
+    And(a=isAdd, b=s2, out=add2);
+    Or(a=and2, b=add2, out=out[2]);
+
+    FullAdder(a=x[3], b=y[3], c=c2, sum=s3, carry=c3);
+    And(a=x[3], b=y[3], out=andResult3);
+    And(a=isAnd, b=andResult3, out=and3);
+    And(a=isAdd, b=s3, out=add3);
+    Or(a=and3, b=add3, out=out[3]);
+
+    FullAdder(a=x[4], b=y[4], c=c3, sum=s4, carry=c4);
+    And(a=x[4], b=y[4], out=andResult4);
+    And(a=isAnd, b=andResult4, out=and4);
+    And(a=isAdd, b=s4, out=add4);
+    Or(a=and4, b=add4, out=out[4]);
+
+    FullAdder(a=x[5], b=y[5], c=c4, sum=s5, carry=c5);
+    And(a=x[5], b=y[5], out=andResult5);
+    And(a=isAnd, b=andResult5, out=and5);
+    And(a=isAdd, b=s5, out=add5);
+    Or(a=and5, b=add5, out=out[5]);
+
+    FullAdder(a=x[6], b=y[6], c=c5, sum=s6, carry=c6);
+    And(a=x[6], b=y[6], out=andResult6);
+    And(a=isAnd, b=andResult6, out=and6);
+    And(a=isAdd, b=s6, out=add6);
+    Or(a=and6, b=add6, out=out[6]);
+
+    FullAdder(a=x[7], b=y[7], c=c6, sum=s7, carry=c7);
+    And(a=x[7], b=y[7], out=andResult7);
+    And(a=isAnd, b=andResult7, out=and7);
+    And(a=isAdd, b=s7, out=add7);
+    Or(a=and7, b=add7, out=out[7]);
+
+    FullAdder(a=x[8], b=y[8], c=c7, sum=s8, carry=c8);
+    And(a=x[8], b=y[8], out=andResult8);
+    And(a=isAnd, b=andResult8, out=and8);
+    And(a=isAdd, b=s8, out=add8);
+    Or(a=and8, b=add8, out=out[8]);
+
+    FullAdder(a=x[9], b=y[9], c=c8, sum=s9, carry=c9);
+    And(a=x[9], b=y[9], out=andResult9);
+    And(a=isAnd, b=andResult9, out=and9);
+    And(a=isAdd, b=s9, out=add9);
+    Or(a=and9, b=add9, out=out[9]);
+
+    FullAdder(a=x[10], b=y[10], c=c9, sum=s10, carry=c10);
+    And(a=x[10], b=y[10], out=andResult10);
+    And(a=isAnd, b=andResult10, out=and10);
+    And(a=isAdd, b=s10, out=add10);
+    Or(a=and10, b=add10, out=out[10]);
+
+    FullAdder(a=x[11], b=y[11], c=c10, sum=s11, carry=c11);
+    And(a=x[11], b=y[11], out=andResult11);
+    And(a=isAnd, b=andResult11, out=and11);
+    And(a=isAdd, b=s11, out=add11);
+    Or(a=and11, b=add11, out=out[11]);
+
+    FullAdder(a=x[12], b=y[12], c=c11, sum=s12, carry=c12);
+    And(a=x[12], b=y[12], out=andResult12);
+    And(a=isAnd, b=andResult12, out=and12);
+    And(a=isAdd, b=s12, out=add12);
+    Or(a=and12, b=add12, out=out[12]);
+
+    FullAdder(a=x[13], b=y[13], c=c12, sum=s13, carry=c13);
+    And(a=x[13], b=y[13], out=andResult13);
+    And(a=isAnd, b=andResult13, out=and13);
+    And(a=isAdd, b=s13, out=add13);
+    Or(a=and13, b=add13, out=out[13]);
+
+    FullAdder(a=x[14], b=y[14], c=c13, sum=s14, carry=c14);
+    And(a=x[14], b=y[14], out=andResult14);
+    And(a=isAnd, b=andResult14, out=and14);
+    And(a=isAdd, b=s14, out=add14);
+    Or(a=and14, b=add14, out=out[14]);
+
+    And(a=x[15], b=y[15], out=bothMinus);
+    Xor(a=x[15], b=y[15], out=halfMinus);
+
+
+    And(a=isAnd, b=bothMinus, out=andResult15); // and 조건 이면서 둘 다 minus일때
+
+    And(a=isAdd, b=bothMinus, out=sumMinus);
+    And(a=isAdd, b=halfMinus, out=sumHalfMinus);
+    And(a=sumHalfMinus, b=c14, out=isPlus);
+    Not(in=isPlus, out=isMinus);
+    And(a=isMinus, b=sumMinus, out=addResult15); // 둘다 minus 이거나, 하나만 minus인데 carry해서 값이 넘어왔을경우
+
+    Or(a=andResult15, b=addResult15, out=out15);
+    Or(a=andResult15, b=addResult15, out=out[15]);
+
+    Or(a=andResult15, b=addResult15, out=ng);
+
+    // Not16(in=out, out=zr0);
+    // And(a=zr0[0], b=zr0[1], out=zr1);
+    // And(a=zr0[1], b=zr1, out=zr2);
+    // And(a=zr0[2], b=zr2, out=zr3);
+    // And(a=zr0[3], b=zr3, out=zr4);
+    // And(a=zr0[4], b=zr4, out=zr5);
+    // And(a=zr0[5], b=zr5, out=zr6);
+    // And(a=zr0[6], b=zr6, out=zr7);
+    // And(a=zr0[7], b=zr7, out=zr8);
+    // And(a=zr0[8], b=zr8, out=zr9);
+    // And(a=zr0[9], b=zr9, out=zr10);
+    // And(a=zr0[10], b=zr10, out=zr11);
+    // And(a=zr0[11], b=zr11, out=zr12);
+    // And(a=zr0[12], b=zr12, out=zr13);
+    // And(a=zr0[13], b=zr13, out=zr14);
+    // And(a=zr0[14], b=zr14, out=zr15);
+    // And(a=zr0[15], b=zr15, out=zr);
+
 }
