@@ -134,39 +134,57 @@ CHIP ALU {
     And(a=isAdd, b=s14, out=add14);
     Or(a=and14, b=add14, out=out[14]);
 
+    // ng
     And(a=x[15], b=y[15], out=bothMinus);
     Xor(a=x[15], b=y[15], out=halfMinus);
 
+    Or(a=bothMinus, b=halfMinus, out=haveMinus);
 
     And(a=isAnd, b=bothMinus, out=andResult15); // and 조건 이면서 둘 다 minus일때
 
     And(a=isAdd, b=bothMinus, out=sumMinus);
+
     And(a=isAdd, b=halfMinus, out=sumHalfMinus);
     And(a=sumHalfMinus, b=c14, out=isPlus);
     Not(in=isPlus, out=isMinus);
-    And(a=isMinus, b=sumMinus, out=addResult15); // 둘다 minus 이거나, 하나만 minus인데 carry해서 값이 넘어왔을경우
 
-    Or(a=andResult15, b=addResult15, out=out15);
+    Or(a=sumMinus, b=isMinus, out=addRes); // 둘다 minus 이거나, 하나만 minus인데 carry해서 값이 넘어왔을경우
+    And(a=addRes, b=haveMinus, out=addResult15);
+
     Or(a=andResult15, b=addResult15, out=out[15]);
-
     Or(a=andResult15, b=addResult15, out=ng);
+    // zr
+    Or(a=andResult15, b=addResult15, out=zr0);
+    Or(a=and0, b=add0, out=zr1);
+    Or(a=and1, b=add1, out=zr2);
+    Or(a=and2, b=add2, out=zr3);
+    Or(a=and3, b=add3, out=zr4);
+    Or(a=and4, b=add4, out=zr5);
+    Or(a=and5, b=add5, out=zr6);
+    Or(a=and6, b=add6, out=zr7);
+    Or(a=and7, b=add7, out=zr8);
+    Or(a=and8, b=add8, out=zr9);
+    Or(a=and9, b=add9, out=zr10);
+    Or(a=and10, b=add10, out=zr11);
+    Or(a=and11, b=add11, out=zr12);
+    Or(a=and12, b=add12, out=zr13);
+    Or(a=and13, b=add13, out=zr14);
+    Or(a=and14, b=add14, out=zr15);
 
-    // Not16(in=out, out=zr0);
-    // And(a=zr0[0], b=zr0[1], out=zr1);
-    // And(a=zr0[1], b=zr1, out=zr2);
-    // And(a=zr0[2], b=zr2, out=zr3);
-    // And(a=zr0[3], b=zr3, out=zr4);
-    // And(a=zr0[4], b=zr4, out=zr5);
-    // And(a=zr0[5], b=zr5, out=zr6);
-    // And(a=zr0[6], b=zr6, out=zr7);
-    // And(a=zr0[7], b=zr7, out=zr8);
-    // And(a=zr0[8], b=zr8, out=zr9);
-    // And(a=zr0[9], b=zr9, out=zr10);
-    // And(a=zr0[10], b=zr10, out=zr11);
-    // And(a=zr0[11], b=zr11, out=zr12);
-    // And(a=zr0[12], b=zr12, out=zr13);
-    // And(a=zr0[13], b=zr13, out=zr14);
-    // And(a=zr0[14], b=zr14, out=zr15);
-    // And(a=zr0[15], b=zr15, out=zr);
+    Or(a=zr1, b=zr2, out=rs0);
+    Or(a=rs0, b=zr3, out=rs1);
+    Or(a=rs1, b=zr4, out=rs2);
+    Or(a=rs2, b=zr5, out=rs3);
+    Or(a=rs3, b=zr6, out=rs4);
+    Or(a=rs4, b=zr7, out=rs5);
+    Or(a=rs5, b=zr8, out=rs6);
+    Or(a=rs6, b=zr9, out=rs7);
+    Or(a=rs7, b=zr10, out=rs8);
+    Or(a=rs8, b=zr11, out=rs9);
+    Or(a=rs9, b=zr12, out=rs10);
+    Or(a=rs10, b=zr14, out=rs11);
+    Or(a=rs11, b=zr15, out=rs12);
+    Or(a=rs12, b=zr0, out=rs13);
 
+    Not(in=rs13, out=zr);
 }
