@@ -1,31 +1,3 @@
-// This file is part of www.nand2tetris.org
-// and the book "The Elements of Computing Systems"
-// by Nisan and Schocken, MIT Press.
-// File name: projects/02/ALU.hdl
-
-/**
- * The ALU (Arithmetic Logic Unit).
- * Computes one of the following functions:
- * x+y, x-y, y-x, 0, 1, -1, x, y, -x, -y, !x, !y,
- * x+1, y+1, x-1, y-1, x&y, x|y on two 16-bit inputs, 
- * according to 6 input bits denoted zx,nx,zy,ny,f,no.
- * In addition, the ALU computes two 1-bit outputs:
- * if the ALU output == 0, zr is set to 1; otherwise zr is set to 0;
- * if the ALU output < 0, ng is set to 1; otherwise ng is set to 0.
- */
-
-// Implementation: the ALU logic manipulates the x and y inputs
-// and operates on the resulting values, as follows:
-// if (zx == 1) set x = 0        // 16-bit constant
-// if (nx == 1) set x = !x       // bitwise not
-// if (zy == 1) set y = 0        // 16-bit constant
-// if (ny == 1) set y = !y       // bitwise not
-// if (f == 1)  set out = x + y  // integer 2's complement addition
-// if (f == 0)  set out = x & y  // bitwise and
-// if (no == 1) set out = !out   // bitwise not
-// if (out == 0) set zr = 1
-// if (out < 0) set ng = 1
-
 CHIP ALU {
     IN  
         x[16], y[16],  // 16-bit inputs        
@@ -45,98 +17,184 @@ CHIP ALU {
     Not(in=f, out=isAnd);
     Not(in=isAnd, out=isAdd);
 
-    HalfAdder(a=x[0], b=y[0], sum=s0, carry=c0);
+    Not(in=zx, out=Nzx);
+    Not(in=zy, out=Nzy);
+
+    And(a=x[0], b=Nzx, out=xRes0);
+    And(a=x[1], b=Nzx, out=xRes1);
+    And(a=x[2], b=Nzx, out=xRes2);
+    And(a=x[3], b=Nzx, out=xRes3);
+    And(a=x[4], b=Nzx, out=xRes4);
+    And(a=x[5], b=Nzx, out=xRes5);
+    And(a=x[6], b=Nzx, out=xRes6);
+    And(a=x[7], b=Nzx, out=xRes7);
+    And(a=x[8], b=Nzx, out=xRes8);
+    And(a=x[9], b=Nzx, out=xRes9);
+    And(a=x[10], b=Nzx, out=xRes10);
+    And(a=x[11], b=Nzx, out=xRes11);
+    And(a=x[12], b=Nzx, out=xRes12);
+    And(a=x[13], b=Nzx, out=xRes13);
+    And(a=x[14], b=Nzx, out=xRes14);
+    And(a=x[15], b=Nzx, out=xRes15);
+
+    Xor(a=xRes0, b=nx, out=xResult0);
+    Xor(a=xRes1, b=nx, out=xResult1);
+    Xor(a=xRes2, b=nx, out=xResult2);
+    Xor(a=xRes3, b=nx, out=xResult3);
+    Xor(a=xRes4, b=nx, out=xResult4);
+    Xor(a=xRes5, b=nx, out=xResult5);
+    Xor(a=xRes6, b=nx, out=xResult6);
+    Xor(a=xRes7, b=nx, out=xResult7);
+    Xor(a=xRes8, b=nx, out=xResult8);
+    Xor(a=xRes9, b=nx, out=xResult9);
+    Xor(a=xRes10, b=nx, out=xResult10);
+    Xor(a=xRes11, b=nx, out=xResult11);
+    Xor(a=xRes12, b=nx, out=xResult12);
+    Xor(a=xRes13, b=nx, out=xResult13);
+    Xor(a=xRes14, b=nx, out=xResult14);
+    Xor(a=xRes15, b=nx, out=xResult15);
+
+    And(a=y[0], b=Nzy, out=yRes0);
+    And(a=y[1], b=Nzy, out=yRes1);
+    And(a=y[2], b=Nzy, out=yRes2);
+    And(a=y[3], b=Nzy, out=yRes3);
+    And(a=y[4], b=Nzy, out=yRes4);
+    And(a=y[5], b=Nzy, out=yRes5);
+    And(a=y[6], b=Nzy, out=yRes6);
+    And(a=y[7], b=Nzy, out=yRes7);
+    And(a=y[8], b=Nzy, out=yRes8);
+    And(a=y[9], b=Nzy, out=yRes9);
+    And(a=y[10], b=Nzy, out=yRes10);
+    And(a=y[11], b=Nzy, out=yRes11);
+    And(a=y[12], b=Nzy, out=yRes12);
+    And(a=y[13], b=Nzy, out=yRes13);
+    And(a=y[14], b=Nzy, out=yRes14);
+    And(a=y[15], b=Nzy, out=yRes15);
+
+    Xor(a=yRes0, b=ny, out=yResult0);
+    Xor(a=yRes1, b=ny, out=yResult1);
+    Xor(a=yRes2, b=ny, out=yResult2);
+    Xor(a=yRes3, b=ny, out=yResult3);
+    Xor(a=yRes4, b=ny, out=yResult4);
+    Xor(a=yRes5, b=ny, out=yResult5);
+    Xor(a=yRes6, b=ny, out=yResult6);
+    Xor(a=yRes7, b=ny, out=yResult7);
+    Xor(a=yRes8, b=ny, out=yResult8);
+    Xor(a=yRes9, b=ny, out=yResult9);
+    Xor(a=yRes10, b=ny, out=yResult10);
+    Xor(a=yRes11, b=ny, out=yResult11);
+    Xor(a=yRes12, b=ny, out=yResult12);
+    Xor(a=yRes13, b=ny, out=yResult13);
+    Xor(a=yRes14, b=ny, out=yResult14);
+    Xor(a=yRes15, b=ny, out=yResult15);
+
+    HalfAdder(a=xResult0, b=yResult0, sum=s0, carry=c0);
     And(a=isAnd, b=c0, out=and0);
     And(a=isAdd, b=s0, out=add0);
-    Or(a=and0, b=add0, out=out[0]);
+    Or(a=and0, b=add0, out=out0);
+    Xor(a=out0, b=no, out=out[0]);
 
-    FullAdder(a=x[1], b=y[1], c=c0, sum=s1, carry=c1);
-    And(a=x[1], b=y[1], out=andResult1);
+    FullAdder(a=xResult1, b=yResult1, c=c0, sum=s1, carry=c1);
+    And(a=xResult1, b=yResult1, out=andResult1);
     And(a=isAnd, b=andResult1, out=and1);
     And(a=isAdd, b=s1, out=add1);
-    Or(a=and1, b=add1, out=out[1]);
+    Or(a=and1, b=add1, out=out1);
+    Xor(a=out1, b=no, out=out[1]);
 
-    FullAdder(a=x[2], b=y[2], c=c1, sum=s2, carry=c2);
-    And(a=x[2], b=y[2], out=andResult2);
+    FullAdder(a=xResult2, b=yResult2, c=c1, sum=s2, carry=c2);
+    And(a=xResult2, b=yResult2, out=andResult2);
     And(a=isAnd, b=andResult2, out=and2);
     And(a=isAdd, b=s2, out=add2);
-    Or(a=and2, b=add2, out=out[2]);
+    Or(a=and2, b=add2, out=out2);
+    Xor(a=out2, b=no, out=out[2]);
 
-    FullAdder(a=x[3], b=y[3], c=c2, sum=s3, carry=c3);
-    And(a=x[3], b=y[3], out=andResult3);
+    FullAdder(a=xResult3, b=yResult3, c=c2, sum=s3, carry=c3);
+    And(a=xResult3, b=yResult3, out=andResult3);
     And(a=isAnd, b=andResult3, out=and3);
     And(a=isAdd, b=s3, out=add3);
-    Or(a=and3, b=add3, out=out[3]);
+    Or(a=and3, b=add3, out=out3);
+    Xor(a=out3, b=no, out=out[3]);
 
-    FullAdder(a=x[4], b=y[4], c=c3, sum=s4, carry=c4);
-    And(a=x[4], b=y[4], out=andResult4);
+    FullAdder(a=xResult4, b=yResult4, c=c3, sum=s4, carry=c4);
+    And(a=xResult4, b=yResult4, out=andResult4);
     And(a=isAnd, b=andResult4, out=and4);
     And(a=isAdd, b=s4, out=add4);
-    Or(a=and4, b=add4, out=out[4]);
+    Or(a=and4, b=add4, out=out4);
+    Xor(a=out4, b=no, out=out[4]);
 
-    FullAdder(a=x[5], b=y[5], c=c4, sum=s5, carry=c5);
-    And(a=x[5], b=y[5], out=andResult5);
+    FullAdder(a=xResult5, b=yResult5, c=c4, sum=s5, carry=c5);
+    And(a=xResult5, b=yResult5, out=andResult5);
     And(a=isAnd, b=andResult5, out=and5);
     And(a=isAdd, b=s5, out=add5);
-    Or(a=and5, b=add5, out=out[5]);
+    Or(a=and5, b=add5, out=out5);
+    Xor(a=out5, b=no, out=out[5]);
 
-    FullAdder(a=x[6], b=y[6], c=c5, sum=s6, carry=c6);
-    And(a=x[6], b=y[6], out=andResult6);
+    FullAdder(a=xResult6, b=yResult6, c=c5, sum=s6, carry=c6);
+    And(a=xResult6, b=yResult6, out=andResult6);
     And(a=isAnd, b=andResult6, out=and6);
     And(a=isAdd, b=s6, out=add6);
-    Or(a=and6, b=add6, out=out[6]);
+    Or(a=and6, b=add6, out=out6);
+    Xor(a=out6, b=no, out=out[6]);
 
-    FullAdder(a=x[7], b=y[7], c=c6, sum=s7, carry=c7);
-    And(a=x[7], b=y[7], out=andResult7);
+    FullAdder(a=xResult7, b=yResult7, c=c6, sum=s7, carry=c7);
+    And(a=xResult7, b=yResult7, out=andResult7);
     And(a=isAnd, b=andResult7, out=and7);
     And(a=isAdd, b=s7, out=add7);
-    Or(a=and7, b=add7, out=out[7]);
+    Or(a=and7, b=add7, out=out7);
+    Xor(a=out7, b=no, out=out[7]);
 
-    FullAdder(a=x[8], b=y[8], c=c7, sum=s8, carry=c8);
-    And(a=x[8], b=y[8], out=andResult8);
+    FullAdder(a=xResult8, b=yResult8, c=c7, sum=s8, carry=c8);
+    And(a=xResult8, b=yResult8, out=andResult8);
     And(a=isAnd, b=andResult8, out=and8);
     And(a=isAdd, b=s8, out=add8);
-    Or(a=and8, b=add8, out=out[8]);
+    Or(a=and8, b=add8, out=out8);
+    Xor(a=out8, b=no, out=out[8]);
 
-    FullAdder(a=x[9], b=y[9], c=c8, sum=s9, carry=c9);
-    And(a=x[9], b=y[9], out=andResult9);
+    FullAdder(a=xResult9, b=yResult9, c=c8, sum=s9, carry=c9);
+    And(a=xResult9, b=yResult9, out=andResult9);
     And(a=isAnd, b=andResult9, out=and9);
     And(a=isAdd, b=s9, out=add9);
-    Or(a=and9, b=add9, out=out[9]);
+    Or(a=and9, b=add9, out=out9);
+    Xor(a=out9, b=no, out=out[9]);
 
-    FullAdder(a=x[10], b=y[10], c=c9, sum=s10, carry=c10);
-    And(a=x[10], b=y[10], out=andResult10);
+    FullAdder(a=xResult10, b=yResult10, c=c9, sum=s10, carry=c10);
+    And(a=xResult10, b=yResult10, out=andResult10);
     And(a=isAnd, b=andResult10, out=and10);
     And(a=isAdd, b=s10, out=add10);
-    Or(a=and10, b=add10, out=out[10]);
+    Or(a=and10, b=add10, out=out10);
+    Xor(a=out10, b=no, out=out[10]);
 
-    FullAdder(a=x[11], b=y[11], c=c10, sum=s11, carry=c11);
-    And(a=x[11], b=y[11], out=andResult11);
+    FullAdder(a=xResult11, b=yResult11, c=c10, sum=s11, carry=c11);
+    And(a=xResult11, b=yResult11, out=andResult11);
     And(a=isAnd, b=andResult11, out=and11);
     And(a=isAdd, b=s11, out=add11);
-    Or(a=and11, b=add11, out=out[11]);
+    Or(a=and11, b=add11, out=out11);
+    Xor(a=out11, b=no, out=out[11]);
 
-    FullAdder(a=x[12], b=y[12], c=c11, sum=s12, carry=c12);
-    And(a=x[12], b=y[12], out=andResult12);
+    FullAdder(a=xResult12, b=yResult12, c=c11, sum=s12, carry=c12);
+    And(a=xResult12, b=yResult12, out=andResult12);
     And(a=isAnd, b=andResult12, out=and12);
     And(a=isAdd, b=s12, out=add12);
-    Or(a=and12, b=add12, out=out[12]);
+    Or(a=and12, b=add12, out=out12);
+    Xor(a=out12, b=no, out=out[12]);
 
-    FullAdder(a=x[13], b=y[13], c=c12, sum=s13, carry=c13);
-    And(a=x[13], b=y[13], out=andResult13);
+    FullAdder(a=xResult13, b=yResult13, c=c12, sum=s13, carry=c13);
+    And(a=xResult13, b=yResult13, out=andResult13);
     And(a=isAnd, b=andResult13, out=and13);
     And(a=isAdd, b=s13, out=add13);
-    Or(a=and13, b=add13, out=out[13]);
+    Or(a=and13, b=add13, out=out13);
+    Xor(a=out13, b=no, out=out[13]);
 
-    FullAdder(a=x[14], b=y[14], c=c13, sum=s14, carry=c14);
-    And(a=x[14], b=y[14], out=andResult14);
+    FullAdder(a=xResult14, b=yResult14, c=c13, sum=s14, carry=c14);
+    And(a=xResult14, b=yResult14, out=andResult14);
     And(a=isAnd, b=andResult14, out=and14);
     And(a=isAdd, b=s14, out=add14);
-    Or(a=and14, b=add14, out=out[14]);
+    Or(a=and14, b=add14, out=out14);
+    Xor(a=out14, b=no, out=out[14]);
 
     // ng
-    And(a=x[15], b=y[15], out=bothMinus);
-    Xor(a=x[15], b=y[15], out=halfMinus);
+    And(a=xResult15, b=yResult15, out=bothMinus);
+    Xor(a=xResult15, b=yResult15, out=halfMinus);
 
     Or(a=bothMinus, b=halfMinus, out=haveMinus);
 
@@ -147,29 +205,32 @@ CHIP ALU {
     And(a=isAdd, b=halfMinus, out=sumHalfMinus);
     And(a=sumHalfMinus, b=c14, out=isPlus);
     Not(in=isPlus, out=isMinus);
+    And(a=isMinus, b=isAdd, out=addMinus);
 
-    Or(a=sumMinus, b=isMinus, out=addRes); // 둘다 minus 이거나, 하나만 minus인데 carry해서 값이 넘어왔을경우
+    Or(a=sumMinus, b=addMinus, out=addRes); // 둘다 minus 이거나, 하나만 minus인데 carry해서 값이 넘어왔을경우
     And(a=addRes, b=haveMinus, out=addResult15);
 
-    Or(a=andResult15, b=addResult15, out=out[15]);
-    Or(a=andResult15, b=addResult15, out=ng);
+    Or(a=andResult15, b=addResult15, out=out15);
+    Xor(a=out15, b=no, out=out[15]);
+    Xor(a=out15, b=no, out=ng);
+
     // zr
-    Or(a=andResult15, b=addResult15, out=zr0);
-    Or(a=and0, b=add0, out=zr1);
-    Or(a=and1, b=add1, out=zr2);
-    Or(a=and2, b=add2, out=zr3);
-    Or(a=and3, b=add3, out=zr4);
-    Or(a=and4, b=add4, out=zr5);
-    Or(a=and5, b=add5, out=zr6);
-    Or(a=and6, b=add6, out=zr7);
-    Or(a=and7, b=add7, out=zr8);
-    Or(a=and8, b=add8, out=zr9);
-    Or(a=and9, b=add9, out=zr10);
-    Or(a=and10, b=add10, out=zr11);
-    Or(a=and11, b=add11, out=zr12);
-    Or(a=and12, b=add12, out=zr13);
-    Or(a=and13, b=add13, out=zr14);
-    Or(a=and14, b=add14, out=zr15);
+    Xor(a=out15, b=no, out=zr0);
+    Xor(a=out0, b=no, out=zr1);
+    Xor(a=out1, b=no, out=zr2);
+    Xor(a=out2, b=no, out=zr3);
+    Xor(a=out3, b=no, out=zr4);
+    Xor(a=out4, b=no, out=zr5);
+    Xor(a=out5, b=no, out=zr6);
+    Xor(a=out6, b=no, out=zr7);
+    Xor(a=out7, b=no, out=zr8);
+    Xor(a=out8, b=no, out=zr9);
+    Xor(a=out9, b=no, out=zr10);
+    Xor(a=out10, b=no, out=zr11);
+    Xor(a=out11, b=no, out=zr12);
+    Xor(a=out12, b=no, out=zr13);
+    Xor(a=out13, b=no, out=zr14);
+    Xor(a=out14, b=no, out=zr15);
 
     Or(a=zr1, b=zr2, out=rs0);
     Or(a=rs0, b=zr3, out=rs1);
