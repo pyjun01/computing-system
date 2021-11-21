@@ -9,6 +9,8 @@
  * else if (load[t] == 1)  out[t+1] = in[t]
  * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
  * else                    out[t+1] = out[t]
+
+ 
  */
 
 CHIP PC {
@@ -16,5 +18,13 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    Add16(a=before, b[0]=inc, out=addValue);
+
+    Mux16(a=addValue, b=in, sel=load, out=loadValue);
+
+
+    Not(in=reset, out=resetV);
+    And16(a=loadValue, b[0]=resetV, b[1]=resetV, b[2]=resetV, b[3]=resetV, b[4]=resetV, b[5]=resetV, b[6]=resetV, b[7]=resetV, b[8]=resetV, b[9]=resetV, b[10]=resetV, b[11]=resetV, b[12]=resetV, b[13]=resetV, b[14]=resetV, b[15]=resetV, out=resetValue);
+
+    Register(in=resetValue, load=true, out=out, out=before);
 }
