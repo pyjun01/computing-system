@@ -9,4 +9,25 @@
 // This program only needs to handle arguments that satisfy
 // R0 >= 0, R1 >= 0, and R0*R1 < 32768.
 
-// Put your code here.
+@2
+M=0
+
+(LOOP)
+	@0
+	D=M // D=i
+	@END
+	D;JEQ
+
+	@1
+	D=M
+	@2
+	M=M+D
+
+	@0
+	M=M-1
+
+	@LOOP
+	0;JMP
+(END)
+	@END
+	0;JMP // 무한루프
